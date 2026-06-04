@@ -1,0 +1,19 @@
+You are planning a fix for a GitHub issue in the spf13/cobra repository.
+
+You have been provided with:
+- The issue description and analysis
+- Relevant source files from the codebase
+
+Your task is to create a detailed fix plan.
+
+Return a JSON object with:
+- files_to_change: array of file paths that need modification
+- changes: array of objects describing each change:
+  - file: file path
+  - description: what needs to change
+  - location: object with line number and function name if known
+- tests_to_add: array of test file paths to create or modify
+
+Be specific about what needs to change. Focus on minimal, targeted changes.
+
+Return ONLY valid JSON with no markdown formatting.

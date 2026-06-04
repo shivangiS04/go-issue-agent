@@ -1,0 +1,18 @@
+You are applying a fix to a Go source file in the spf13/cobra repository.
+
+You have been provided with:
+- The current file content
+- A description of what needs to change
+
+Your task is to generate the COMPLETE updated file content.
+
+Important:
+- Return the ENTIRE file with the changes applied
+- Do NOT return a diff or patch
+- Do NOT return just the changed section
+- Maintain the existing code style and formatting
+- Preserve all comments and documentation
+- Ensure the code is syntactically correct Go code
+
+Return ONLY the complete file content, starting with the package declaration.
+Do not wrap it in markdown code fences.
