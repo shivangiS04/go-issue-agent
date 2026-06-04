@@ -4,7 +4,7 @@ An agentic AI system that automatically processes GitHub issues from open-source
 
 ---
 
-## 🎯 Overview
+## Overview
 
 The Go Issue Agent is a complete **8-stage autonomous pipeline** that demonstrates thoughtful framework design around AI capabilities. Built for the PocketFM Take-Home Assignment.
 
@@ -28,7 +28,7 @@ Takes a GitHub issue URL → Analyzes the problem → Finds relevant code → Pl
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -61,7 +61,7 @@ Check the `output/` directory:
 
 ---
 
-## 📋 System Architecture
+## System Architecture
 
 ### 8-Stage Pipeline Details
 
@@ -119,7 +119,7 @@ Check the `output/` directory:
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 go-issue-agent/
@@ -148,7 +148,7 @@ go-issue-agent/
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 Edit `config.py` to customize:
 
@@ -169,7 +169,7 @@ MAX_BUILD_RETRIES = 3                    # Build retry attempts
 
 ---
 
-## 🔧 How It Works
+## How It Works
 
 ### Data Flow
 
@@ -223,7 +223,7 @@ Output Files (patch.diff, pr_summary.md)
 
 ---
 
-## 📊 Example Run
+## Example Run
 
 ```bash
 $ python run.py --issue https://github.com/spf13/cobra/issues/1989 --repo ./cobra
@@ -291,7 +291,7 @@ Fixes #1989
 
 ---
 
-## 🎯 Design Philosophy
+## Design Philosophy
 
 ### Not a Thin Wrapper
 
@@ -321,7 +321,7 @@ This is a **complete framework** around AI:
 
 ---
 
-## 🧪 Validation Strategy
+## Validation Strategy
 
 ### How the System Ensures Quality
 
@@ -348,7 +348,7 @@ cat output/pr_summary.md
 
 ---
 
-## 🔒 Security Considerations
+## Security Considerations
 
 - **Repository Whitelist**: Only approved repos are processed
 - **No Code Execution**: Issue content treated as data only
@@ -359,7 +359,7 @@ cat output/pr_summary.md
 
 ---
 
-## 🚦 Troubleshooting
+## Troubleshooting
 
 ### Error: GROQ_API_KEY not set
 ```bash
@@ -389,7 +389,7 @@ Test failures are reported but don't stop the pipeline. Review the validation ou
 
 ---
 
-## 📈 Performance Characteristics
+## Performance Characteristics
 
 **Typical Run Time**: 2-5 minutes
 
@@ -410,7 +410,7 @@ Test failures are reported but don't stop the pipeline. Review the validation ou
 
 ---
 
-## 🎓 Technical Stack
+## Technical Stack
 
 - **Language**: Python 3.9+
 - **AI Provider**: Groq API (llama-3.3-70b-versatile)
@@ -420,7 +420,7 @@ Test failures are reported but don't stop the pipeline. Review the validation ou
 
 ---
 
-## 📝 Assignment Compliance
+## Assignment Compliance
 
 ### Requirements Met
 
@@ -448,7 +448,7 @@ Test failures are reported but don't stop the pipeline. Review the validation ou
 
 ---
 
-## ⚠️ Limitations (By Design)
+## Limitations (By Design)
 
 - Only works with approved Go repositories (security)
 - Handles small to medium issues (focus on reliability)
@@ -460,7 +460,7 @@ These are intentional design choices to keep the system **simple, thoughtful, an
 
 ---
 
-## 🔮 Future Enhancements (Out of Scope)
+## Future Enhancements (Out of Scope)
 
 - Embedding-based file search (faster than grep)
 - Multi-issue parallel processing
@@ -471,13 +471,13 @@ These are intentional design choices to keep the system **simple, thoughtful, an
 
 ---
 
-## 📄 License
+## License
 
 MIT License - feel free to use and modify.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Built for the PocketFM Take-Home Assignment: "Build an Agentic AI Contributor for Open-Source Go Projects"
 
