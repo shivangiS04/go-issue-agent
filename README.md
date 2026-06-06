@@ -35,7 +35,10 @@ Takes a GitHub issue URL → Analyzes the problem → Finds relevant code → Pl
 - **Python 3.9+**
 - **Go 1.21+**
 - **Git**
-- **Groq API Key** (free at [console.groq.com](https://console.groq.com))
+- **LLM API Key** (choose one):
+  - Groq API Key (free at [console.groq.com](https://console.groq.com))
+  - Anthropic API Key ([console.anthropic.com](https://console.anthropic.com))
+  - OpenAI API Key ([platform.openai.com](https://platform.openai.com))
 
 ### Installation
 
@@ -43,8 +46,21 @@ Takes a GitHub issue URL → Analyzes the problem → Finds relevant code → Pl
 # 1. Install dependencies
 pip install groq requests
 
-# 2. Set API key
-export GROQ_API_KEY=your_api_key_here
+# Optional: Install additional LLM providers
+pip install anthropic  # For Claude
+pip install openai     # For GPT-4
+
+# 2. Set API key (choose your provider)
+# For Groq (default):
+export GROQ_API_KEY=your_key_here
+
+# For Anthropic:
+export LLM_PROVIDER=anthropic
+export ANTHROPIC_API_KEY=your_key_here
+
+# For OpenAI:
+export LLM_PROVIDER=openai
+export OPENAI_API_KEY=your_key_here
 
 # 3. Clone target repository
 git clone https://github.com/spf13/cobra.git

@@ -1,2 +1,7 @@
 groq>=0.4.0
 requests>=2.31.0
+
+# Optional: Multi-provider LLM support
+# Uncomment the providers you want to use:
+# anthropic>=0.18.0
+# openai>=1.12.0

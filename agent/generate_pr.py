@@ -1,13 +1,13 @@
 """Stage 7: Generate PR summary using AI."""
 import json
-from groq import Groq
 from typing import Dict
 from tools import get_git_diff
+from agent.llm_client import call_llm
 
 
 def generate_pr_summary(repo_path: str, issue_data: Dict, analysis: Dict, 
-                       plan: Dict, validation: Dict, groq_client: Groq, 
-                       system_prompt: str) -> Dict:
+                       plan: Dict, validation: Dict, groq_client, 
+                       system_prompt: str, config=None) -> Dict:
     """Generate PR title and body.
     
     Args:
@@ -16,8 +16,9 @@ def generate_pr_summary(repo_path: str, issue_data: Dict, analysis: Dict,
         analysis: Analysis from Stage 2
         plan: Plan from Stage 4
         validation: Validation results from Stage 6
-        groq_client: Groq API client
+        groq_client: Deprecated - kept for compatibility
         system_prompt: System prompt
+        config: Configuration module (required for multi-provider support)
         
     Returns:
         Dict with 'title' and 'body' for PR
@@ -62,16 +63,13 @@ Generate a PR in this format:
 Return ONLY valid JSON."""
     
     try:
-        response = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
+        # Use unified LLM client
+        response_text = call_llm(
+            messages=[{"role": "user", "content": user_prompt}],
+            system_prompt=system_prompt,
+            config=config,
             temperature=0.2
         )
-        
-        response_text = response.choices[0].message.content.strip()
         
         # Remove markdown code fences
         if response_text.startswith('```'):

@@ -1,16 +1,17 @@
-"""Stage 2: Analyze issue using Groq API to extract structured information."""
+"""Stage 2: Analyze issue using LLM API to extract structured information."""
 import json
-from groq import Groq
 from typing import Dict
+from agent.llm_client import call_llm
 
 
-def analyze_issue(issue_data: Dict, groq_client: Groq, system_prompt: str) -> Dict:
+def analyze_issue(issue_data: Dict, groq_client, system_prompt: str, config=None) -> Dict:
     """Analyze issue using AI to extract structured metadata.
     
     Args:
         issue_data: Issue data from Stage 1
-        groq_client: Groq API client
+        groq_client: Deprecated - kept for compatibility
         system_prompt: System prompt for AI
+        config: Configuration module (required for multi-provider support)
         
     Returns:
         Dict with: issue_type, summary, expected_behavior, current_behavior,
@@ -39,17 +40,13 @@ Extract the following information and return as JSON:
 Return ONLY valid JSON, no markdown formatting."""
     
     try:
-        response = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
+        # Use unified LLM client
+        response_text = call_llm(
+            messages=[{"role": "user", "content": user_prompt}],
+            system_prompt=system_prompt,
+            config=config,
             temperature=0.2
         )
-        
-        # Parse response
-        response_text = response.choices[0].message.content.strip()
         
         # Remove markdown code fences if present
         if response_text.startswith('```'):
