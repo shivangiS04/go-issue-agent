@@ -79,6 +79,68 @@ def git_stash_drop(repo_path: str) -> bool:
         return False
 
 
+def validate_plan_targets(plan: Dict, repo_map: Dict, repo_path: str) -> Dict:
+    """Validate and auto-correct target file paths in the plan.
+    
+    For each change in the plan, search all files in the repo map to find
+    where the target string actually exists. If found in a different file,
+    automatically correct the file name in the plan.
+    
+    Args:
+        plan: Structured fix plan from Stage 4
+        repo_map: Repository map from Stage 0
+        repo_path: Path to repository root
+        
+    Returns:
+        Corrected plan with accurate file paths
+    """
+    print("[Validation] Checking target strings in plan...", end=" ", flush=True)
+    
+    corrected_plan = plan.copy()
+    corrections = 0
+    
+    for i, change in enumerate(corrected_plan.get('changes', [])):
+        target = change.get('target', '')
+        specified_file = change.get('file', '')
+        
+        if not target:
+            continue
+        
+        # Search all files in repo map for the target string
+        found_in_files = []
+        
+        for filepath in repo_map.get('files', {}).keys():
+            full_path = os.path.join(repo_path, filepath)
+            try:
+                with open(full_path, 'r') as f:
+                    content = f.read()
+                    if target in content:
+                        found_in_files.append(filepath)
+            except:
+                continue
+        
+        # If target found in different file(s), correct it
+        if found_in_files and specified_file not in found_in_files:
+            # Use the first file where target was found
+            corrected_file = found_in_files[0]
+            print(f"\n  [Correction] Target '{target[:50]}...' not in {specified_file}")
+            print(f"  [Correction] Found in {corrected_file}, updating plan", file=sys.stderr)
+            corrected_plan['changes'][i]['file'] = corrected_file
+            corrections += 1
+            
+            # Also update files_to_change list
+            if specified_file in corrected_plan.get('files_to_change', []):
+                idx = corrected_plan['files_to_change'].index(specified_file)
+                corrected_plan['files_to_change'][idx] = corrected_file
+    
+    if corrections > 0:
+        print(f"✓ ({corrections} corrections)")
+    else:
+        print("✓")
+    
+    return corrected_plan
+
+
 def run_pipeline(issue_url: str, repo_path: str, config) -> Dict:
     """Run the complete pipeline with git rollback support.
     
@@ -136,6 +198,9 @@ def run_pipeline(issue_url: str, repo_path: str, config) -> Dict:
         dependencies=dependencies,
         config=config
     )
+    
+    # Validate and correct file paths in plan
+    plan = validate_plan_targets(plan, repo_map, repo_path)
     
     # Stash changes before applying fix
     print("[Rollback] Stashing current state...", end=" ", flush=True)
